@@ -8,7 +8,7 @@ and their configuration details from the Sodex exchange.
 
 from loguru import logger
 
-from sodex_api.client import SodexClient
+from sodex_api import SodexClient
 
 
 def main():

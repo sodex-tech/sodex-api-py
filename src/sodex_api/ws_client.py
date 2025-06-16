@@ -1,14 +1,13 @@
 import asyncio
 import json
 import websockets
-from typing import Dict, Optional, Callable, Any, Union, Literal
+from typing import Dict, Optional, Callable, Any, Union
 from dataclasses import dataclass
 from loguru import logger
 from enum import Enum
 
 from .client import SodexClient, SodexAPIError
-from .models import Orderbook, OBItem, TradeData, TickerData, OrderSide
-
+from .models import Orderbook, OBItem, TradeData, TickerData, UserBalanceData, UserOrderData, UserTradeData, SystemMessage, KlineStreamData, DepthData
 
 class SubscriptionType(Enum):
     """WebSocket subscription types."""
@@ -26,83 +25,6 @@ class WebSocketConfig:
     reconnect_interval: int = 5
     max_reconnect_attempts: int = 10
 
-
-@dataclass
-class DepthData:
-    """Represents depth/orderbook update data."""
-    id: str
-    symbol: str
-    side: Literal["ASK", "BID"]
-    price: float
-    quantity: float
-    timestamp: int
-
-
-@dataclass
-class KlineStreamData:
-    """Represents kline stream data."""
-    symbol: str
-    open_price: float
-    close_price: float
-    high_price: float
-    low_price: float
-    volume: float
-    quote_volume: float
-    interval: str
-    timestamp: int
-
-@dataclass
-class UserBalanceData:
-    """Represents user balance update data."""
-    coin: str
-    balance_type: int
-    balance: float
-    freeze: float
-    available_balance: float
-    estimated_total_amount: float
-    estimated_cny_amount: float
-    estimated_available_amount: float
-    estimated_coin_type: str
-
-
-@dataclass
-class UserOrderData:
-    """Represents user order update data."""
-    order_id: str
-    balance_type: int
-    order_type: OrderSide
-    symbol: str
-    price: float
-    direction: OrderSide
-    orig_qty: float
-    avg_price: float
-    executed_qty: float
-    state: int  # 1=new, 2=partial, 3=filled, 4=cancelled
-    create_time: int
-
-
-@dataclass
-class UserTradeData:
-    """Represents user trade execution data."""
-    order_id: str
-    price: float
-    quantity: float
-    margin_unfrozen: float
-    timestamp: int
-
-
-@dataclass
-class SystemMessage:
-    """Represents system notification message."""
-    id: int
-    title: str
-    content: str
-    agg_type: str
-    detail_type: str
-    created_time: int
-    all_scope: bool
-    user_id: int
-    read: bool
 
 SOCKET_URL_PATH = "/spot/v1/ws/socket"
 

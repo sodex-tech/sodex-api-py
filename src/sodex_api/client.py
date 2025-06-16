@@ -9,6 +9,7 @@ from loguru import logger
 
 from .config import Config
 from .models import Balance, Orderbook, OBItem, Order, KlineData, TickerData, TradeData, OrderFill, SymbolInfo, OrderSide
+from .exceptions import SodexAPIError
 
 # Constants
 DEFAULT_ORDERBOOK_LIMIT = 100
@@ -23,12 +24,6 @@ SYMBOL_MAPPING = {
 }
 
 REVERSE_SYMBOL_MAPPING = {v: k for k, v in SYMBOL_MAPPING.items()}
-
-
-class SodexAPIError(Exception):
-    """Custom exception for Sodex API errors."""
-    pass
-
 
 class SodexClient:
     """Client for interacting with Sodex Exchange API."""

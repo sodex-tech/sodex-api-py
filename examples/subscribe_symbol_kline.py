@@ -1,8 +1,7 @@
 import asyncio
 from datetime import datetime
 
-from sodex_api.ws_client import SodexWebSocketClient, DepthData, AllDepthData, DealData, KlineStreamData, SodexAPIError
-from sodex_api.config import Config
+from sodex_api import SodexWebSocketClient, DepthData, Orderbook, TradeData, SodexAPIError, Config
 
 def handle_symbol_data(data):
     timestamp = datetime.now().strftime('%H:%M:%S')
@@ -11,12 +10,12 @@ def handle_symbol_data(data):
         side_str = "BUY" if data.side == 1 else "SELL"
         print(f"[{timestamp}] Depth Update - {data.symbol}: {side_str} {data.quantity} @ {data.price}")
     
-    elif isinstance(data, AllDepthData):
+    elif isinstance(data, Orderbook):
         print(f"[{timestamp}] Full Depth - {data.symbol}:")
         print(f"  Best Ask: {data.asks[0] if data.asks else 'N/A'}")
         print(f"  Best Bid: {data.bids[0] if data.bids else 'N/A'}")
     
-    elif isinstance(data, DealData):
+    elif isinstance(data, TradeData):
         side_str = "BUY" if data.side == 1 else "SELL"
         print(f"[{timestamp}] Trade - {data.symbol}: {side_str} {data.quantity} @ {data.price}")
 

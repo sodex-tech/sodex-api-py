@@ -1,4 +1,4 @@
-from sodex_api.client import SodexClient, SodexAPIError
+from sodex_api import SodexClient, SodexAPIError
 
 def main():
     try:

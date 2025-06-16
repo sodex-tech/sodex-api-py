@@ -1,9 +1,7 @@
 import asyncio
 from datetime import datetime
 
-from sodex_api.client import SodexClient, SodexAPIError
-from sodex_api.ws_client import SodexWebSocketClient, UserOrderData
-from sodex_api.config import Config
+from sodex_api import SodexClient, SodexAPIError, SodexWebSocketClient, UserOrderData, Config
 
 class OrderManager:
     def __init__(self):

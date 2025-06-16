@@ -2,9 +2,7 @@ import time
 from typing import List
 from loguru import logger
 
-from sodex_api.client import SodexClient
-from sodex_api.models import Order, OrderSide
-
+from sodex_api import SodexClient, Order, OrderSide
 
 class BatchTrader:
     def __init__(self):

@@ -1,8 +1,7 @@
 import time
 from loguru import logger
 
-from sodex_api.client import SodexClient
-from sodex_api.models import Order, OrderSide
+from sodex_api import SodexClient, Order
 
 
 def main():
