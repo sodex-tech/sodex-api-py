@@ -53,22 +53,6 @@ def main():
                 print(f"  [{trade_time}] {trade.side} {trade.quantity:.6f} @ {trade.price:.2f}")
         else:
             print(f"No recent trades found for {symbol}")
-        
-        print("\n" + "=" * 60)
-        print("Getting all tickers summary...")
-        
-        all_tickers = client.get_all_tickers()
-        if all_tickers:
-            print(f"Found {len(all_tickers)} trading pairs:")
-            print(f"{'Symbol':<12} {'Price':<12} {'Change%':<10} {'Volume':<15}")
-            print("-" * 50)
-            for ticker in all_tickers[:10]:
-                print(f"{ticker.symbol:<12} {ticker.close_price:<12.2f} {ticker.price_change_percent:<10.2f} {ticker.volume:<15.4f}")
-            if len(all_tickers) > 10:
-                print(f"... and {len(all_tickers) - 10} more pairs")
-        else:
-            print("No ticker data found")
-            
     except SodexAPIError as e:
         print(f"API error: {e}")
     except Exception as e:
