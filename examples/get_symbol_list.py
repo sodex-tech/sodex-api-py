@@ -8,14 +8,14 @@ and their configuration details from the Sodex exchange.
 
 from loguru import logger
 
-from sodex_api import SodexClient
+from sodex_api.spot import SpotClient
 
 
 def main():
     """Main function to demonstrate getting symbol list."""
     try:
         # Initialize the Sodex client
-        client = SodexClient()
+        client = SpotClient()
         
         # Get the list of all trading symbols
         logger.info("Fetching symbol list...")

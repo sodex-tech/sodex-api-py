@@ -1,22 +1,20 @@
-"""Legacy models module for backward compatibility."""
+"""Spot trading module for Sodex API."""
 
-# Import all models from the spot module
-from .spot.models import (
-    # Type aliases
-    OrderSide,
-    OrderType,
-    OrderState,
-    # Core models
-    OBItem,
-    Orderbook,
+from .client import SpotClient
+from .ws_client import SpotWebSocketClient, WebSocketConfig, SubscriptionType
+from .models import (
     Balance,
     Order,
+    Orderbook,
+    OBItem,
     KlineData,
     TickerData,
     TradeData,
     OrderFill,
     SymbolInfo,
-    # WebSocket models
+    OrderSide,
+    OrderType,
+    OrderState,
     DepthData,
     KlineStreamData,
     UserBalanceData,
@@ -25,20 +23,23 @@ from .spot.models import (
     SystemMessage
 )
 
-# Re-export everything for backward compatibility
 __all__ = [
-    'OrderSide',
-    'OrderType', 
-    'OrderState',
-    'OBItem',
-    'Orderbook',
+    'SpotClient',
+    'SpotWebSocketClient',
+    'WebSocketConfig',
+    'SubscriptionType',
     'Balance',
     'Order',
+    'Orderbook',
+    'OBItem',
     'KlineData',
     'TickerData',
     'TradeData',
     'OrderFill',
     'SymbolInfo',
+    'OrderSide',
+    'OrderType',
+    'OrderState',
     'DepthData',
     'KlineStreamData',
     'UserBalanceData',

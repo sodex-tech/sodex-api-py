@@ -1,11 +1,12 @@
 import time
 from loguru import logger
 
-from sodex_api import SodexClient, Order
+from sodex_api.spot import SpotClient
+from sodex_api.models import Order
 
 
 def main():
-    client = SodexClient()
+    client = SpotClient()
     symbol = "BTCUSDT"
     
     logger.info("Getting current market price")

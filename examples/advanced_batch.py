@@ -2,11 +2,12 @@ import time
 from typing import List
 from loguru import logger
 
-from sodex_api import SodexClient, Order, OrderSide
+from sodex_api.spot import SpotClient
+from sodex_api.models import Order, OrderSide
 
 class BatchTrader:
     def __init__(self):
-        self.client = SodexClient()
+        self.client = SpotClient()
         
     def create_ladder_orders(self, symbol: str, side: OrderSide, base_price: float, 
                            levels: int, price_step: float, quantity: float) -> List[Order]:

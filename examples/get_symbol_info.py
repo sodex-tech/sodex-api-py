@@ -1,10 +1,11 @@
 from datetime import datetime
 
-from sodex_api import SodexClient, SodexAPIError
+from sodex_api.spot import SpotClient
+from sodex_api.exceptions import SodexAPIError
 
 def main():
     try:
-        client = SodexClient()
+        client = SpotClient()
         
         symbol = "BTCUSDT"
         

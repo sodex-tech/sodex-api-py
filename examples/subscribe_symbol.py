@@ -1,7 +1,10 @@
 import asyncio
 from datetime import datetime
 
-from sodex_api import SodexWebSocketClient, DepthData, Orderbook, TradeData, SodexAPIError, Config
+from sodex_api.spot import SpotWebSocketClient
+from sodex_api.models import DepthData, Orderbook, TradeData
+from sodex_api.exceptions import SodexAPIError
+from sodex_api.config import Config
 
 def handle_symbol_data(data):
     timestamp = datetime.now().strftime('%H:%M:%S')
@@ -20,7 +23,7 @@ def handle_symbol_data(data):
         print(f"[{timestamp}] Trade - {data.symbol}: {side_str} {data.quantity} @ {data.price}")
 
 async def main():
-    ws_client = SodexWebSocketClient(host=Config.SODEX_WS_URL)
+    ws_client = SpotWebSocketClient(host=Config.SODEX_WS_URL)
     
     try:
         print("Connecting to WebSocket...")

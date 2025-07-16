@@ -1,12 +1,15 @@
 import asyncio
 from datetime import datetime
 
-from sodex_api import SodexClient, SodexAPIError, SodexWebSocketClient, UserOrderData, Config
+from sodex_api.spot import SpotClient, SpotWebSocketClient
+from sodex_api.exceptions import SodexAPIError
+from sodex_api.models import UserOrderData
+from sodex_api.config import Config
 
 class OrderManager:
     def __init__(self):
-        self.client = SodexClient()
-        self.ws_client = SodexWebSocketClient(host=Config.SODEX_WS_URL)
+        self.client = SpotClient()
+        self.ws_client = SpotWebSocketClient(host=Config.SODEX_WS_URL)
         self.placed_order_id = None
         self.order_received = False
         
