@@ -2,14 +2,12 @@
 
 import requests
 import time
-import hashlib
-import hmac
-import uuid
 import json
 from typing import Dict, List, Optional, Any
 from loguru import logger
 
 from ..core import BaseClient
+from ..core.auth import Authenticator
 from ..config import Config
 from ..models import Balance, Orderbook, OBItem, Order, KlineData, TickerData, TradeData, OrderFill, SymbolInfo, OrderSide
 from ..exceptions import SodexAPIError
@@ -21,9 +19,9 @@ MAX_PAGE_SIZE = 100
 
 # Symbol mappings for Sodex API
 SYMBOL_MAPPING = {
-    "BTCUSDT": "BTC_USDT",
-    "ETHUSDT": "ETH_USDT", 
-    "SOLUSDT": "SOL_USDT"
+    "BTCUSDT": "BTC_USDC",
+    "ETHUSDT": "ETH_USDC", 
+    "SOLUSDT": "SOL_USDC"
 }
 
 REVERSE_SYMBOL_MAPPING = {v: k for k, v in SYMBOL_MAPPING.items()}
@@ -36,6 +34,7 @@ class SpotClient:
         self.api_key = Config.SODEX_API_KEY
         self.secret_key = Config.SODEX_SECRET_KEY
         self.base_url = Config.SODEX_BASE_URL
+        self.authenticator = Authenticator(self.api_key, self.secret_key)
         self.session = self._create_session()
 
     def _create_session(self) -> requests.Session:
@@ -64,35 +63,6 @@ class SpotClient:
         else:
             return REVERSE_SYMBOL_MAPPING.get(symbol, symbol)
     
-    def _generate_signature(self, sorted_params: Dict[str, str], timestamp: str) -> str:
-        """
-        Generate HMAC-SHA256 signature for authenticated requests.
-        
-        Args:
-            sorted_params: Sorted request parameters
-            timestamp: Request timestamp
-            
-        Returns:
-            Generated signature
-            
-        Raises:
-            SodexAPIError: If signature generation fails
-        """
-        try:
-            # Build raw string from parameters
-            raw_string = "&".join([f"{key}={value}" for key, value in sorted_params.items()])
-            # Add timestamp parameter
-            raw_string += f"&timestamp={timestamp}"
-            
-            # Generate HMAC-SHA256 signature
-            signature = hmac.new(
-                self.secret_key.encode('utf-8'),
-                raw_string.encode('utf-8'),
-                hashlib.sha256
-            ).hexdigest()
-            return signature
-        except Exception as e:
-            raise SodexAPIError(f"Error generating signature: {str(e)}")
         
     def _handle_response(self, response_data: Dict[str, Any]) -> Any:
         """
@@ -135,14 +105,12 @@ class SpotClient:
         if params is None:
             params = {}
         
-        timestamp = str(int(time.time() * 1000))
         headers = self.session.headers.copy()
         
         if signed:
-            # Add authentication headers
-            headers['X-Request-Timestamp'] = timestamp
-            headers['X-Request-Nonce'] = str(uuid.uuid4())
-            headers['X-Signature'] = self._generate_signature(params, timestamp)
+            # Get authentication headers from authenticator
+            auth_headers = self.authenticator.get_auth_headers(params)
+            headers.update(auth_headers)
         
         url = f"{self.base_url}{endpoint}"
         

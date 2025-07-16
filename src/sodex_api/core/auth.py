@@ -32,10 +32,7 @@ class Authenticator:
         raw_string = "&".join([f"{key}={value}" for key, value in sorted_params.items()])
         
         # Add timestamp parameter
-        if raw_string:
-            raw_string += f"&timestamp={timestamp}"
-        else:
-            raw_string = f"timestamp={timestamp}"
+        raw_string += f"&timestamp={timestamp}"
         
         # Generate HMAC-SHA256 signature
         signature = hmac.new(

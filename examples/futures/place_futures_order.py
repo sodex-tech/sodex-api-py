@@ -15,13 +15,13 @@ def main():
     
     try:
         # Example: Place a limit buy order for BTC futures
-        symbol = "btc_usdt"
+        symbol = "BTC_USDC"
         order_side = "BUY"
         order_type = "LIMIT"
         position_side = "LONG"  # Open long position
-        quantity = 100  # Contract quantity
-        price = 70000.0  # Limit price
-        leverage = 10  # 10x leverage
+        quantity = 1000  # Contract quantity
+        price = 100000.0  # Limit price
+        leverage = 1  # 10x leverage
         
         logger.info(f"Placing {order_side} {order_type} order for {symbol}")
         logger.info(f"Position Side: {position_side}, Quantity: {quantity}, Price: {price}, Leverage: {leverage}x")
